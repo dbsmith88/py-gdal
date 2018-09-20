@@ -54,13 +54,4 @@ RUN cd src && tar -xvf openjpeg-${OPENJPEG_VERSION}.tar.gz && cd openjpeg-${OPEN
 # Compile and install GDAL
 RUN cd src && tar -xvf gdal-${GDAL_VERSION}.tar.gz && cd gdal-${GDAL_VERSION} \
     && ./configure --with-python --with-spatialite --with-pg --with-curl --with-openjpeg=$ROOTDIR \
-    && make && make install && ldconfig \
-    && apt-get update -y \
-    && apt-get remove -y --purge build-essential wget \
-    && cd $ROOTDIR && cd src/gdal-${GDAL_VERSION}/swig/python \
-    && python3 setup.py build \
-    && python3 setup.py install \
-    && cd $ROOTDIR && rm -Rf src/gdal*
-
-# Output version and capabilities by default.
-CMD gdalinfo --version && gdalinfo --formats && ogrinfo --formats
+    && make
