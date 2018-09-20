@@ -1,0 +1,87 @@
+FROM python:3
+
+ENV GDAL_VERSION=2.3.1
+
+## Update base container install
+#RUN apt-get update
+#RUN apt-get upgrade -y
+#
+## Add unstable repo to allow us to access latest GDAL builds
+#RUN echo deb http://ftp.uk.debian.org/debian unstable main contrib non-free >> /etc/apt/sources.list
+#RUN apt-get update
+#
+## Existing binutils causes a dependency conflict, correct version will be installed when GDAL gets intalled
+#RUN apt-get remove -y binutils
+#
+## Install GDAL dependencies
+#RUN apt-get -t unstable install -y libgdal-dev g++
+#
+## Update C env vars so compiler can find gdal
+#ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
+#ENV C_INCLUDE_PATH=/usr/include/gdal
+#
+## This will install latest version of GDAL
+#RUN pip install GDAL==${GDAL_VERSION}
+
+# Install GDAL
+RUN wget http://download.osgeo.org/gdal/$GDAL_VERSION/gdal-${GDAL_VERSION}.tar.gz -O /tmp/gdal-${GDAL_VERSION}.tar.gz -nv \
+    && tar -x -f /tmp/gdal-${GDAL_VERSION}.tar.gz -C /tmp \
+    && cd /tmp/gdal-${GDAL_VERSION} \
+    && ./configure \
+        --prefix=/usr \
+        --with-geos \
+        --with-geotiff=internal \
+        --with-hide-internal-symbols \
+        --with-libtiff=internal \
+        --with-libz=internal \
+        --with-threads \
+        --without-bsb \
+        --without-cfitsio \
+        --without-cryptopp \
+        --without-curl \
+        --without-dwgdirect \
+        --without-ecw \
+        --without-expat \
+        --without-fme \
+        --without-freexl \
+        --without-gif \
+        --without-gif \
+        --without-gnm \
+        --without-grass \
+        --without-grib \
+        --without-hdf4 \
+        --without-hdf5 \
+        --without-idb \
+        --without-ingres \
+        --without-jasper \
+        --without-jp2mrsid \
+        --without-jpeg \
+        --without-kakadu \
+        --without-libgrass \
+        --without-libkml \
+        --without-libtool \
+        --without-mrf \
+        --without-mrsid \
+        --without-mysql \
+        --without-netcdf \
+        --without-odbc \
+        --without-ogdi \
+        --without-openjpeg \
+        --without-pcidsk \
+        --without-pcraster \
+        --without-pcre \
+        --without-perl \
+        --without-pg \
+        --without-php \
+        --without-png \
+        --without-python \
+        --without-qhull \
+        --without-sde \
+        --without-sqlite3 \
+        --without-webp \
+        --without-xerces \
+        --without-xml2 \
+     && make -j
+#    && make -j $(nproc)
+#    && make install \
+#    && rm /tmp/gdal-${GDAL_VERSION} -rf
