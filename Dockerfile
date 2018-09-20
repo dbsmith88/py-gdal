@@ -53,5 +53,4 @@ RUN cd src && tar -xvf openjpeg-${OPENJPEG_VERSION}.tar.gz && cd openjpeg-${OPEN
 
 # Compile and install GDAL
 RUN cd src && tar -xvf gdal-${GDAL_VERSION}.tar.gz && cd gdal-${GDAL_VERSION} \
-    && ./configure --with-python --with-spatialite --with-pg --with-curl --with-openjpeg=$ROOTDIR \
-    && make
+    && ./configure --with-python --with-spatialite --with-pg --with-curl --with-openjpeg=$ROOTDIR
