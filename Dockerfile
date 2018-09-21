@@ -6,17 +6,15 @@
 # Ubuntu 16.04 Xenial Xerus
 FROM ubuntu:xenial
 
-MAINTAINER Cayetano Benavent <cayetano.benavent@geographica.gs>
-
 ENV ROOTDIR /usr/local/
 ENV GDAL_VERSION 2.3.1
-ENV OPENJPEG_VERSION 2.2.0
+#ENV OPENJPEG_VERSION 2.2.0
 
 # Load assets
 WORKDIR $ROOTDIR/
 
-ADD http://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.gz $ROOTDIR/src/
-ADD https://github.com/uclouvain/openjpeg/archive/v${OPENJPEG_VERSION}.tar.gz $ROOTDIR/src/openjpeg-${OPENJPEG_VERSION}.tar.gz
+ADD http://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.gz /tmp
+#ADD https://github.com/uclou/vain/openjpeg/archive/v${OPENJPEG_VERSION}.tar.gz $/tmp/openjpeg-${OPENJPEG_VERSION}.tar.gz
 
 # Install basic dependencies
 RUN apt-get update -y && apt-get install -y \
@@ -45,12 +43,13 @@ RUN apt-get update -y && apt-get install -y \
     cmake
 
 # Compile and install OpenJPEG
-RUN cd src && tar -xvf openjpeg-${OPENJPEG_VERSION}.tar.gz && cd openjpeg-${OPENJPEG_VERSION}/ \
-    && mkdir build && cd build \
-    && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$ROOTDIR \
-    && make && make install && make clean \
-    && cd $ROOTDIR && rm -Rf src/openjpeg*
+#RUN cd /tmp && tar -xvf openjpeg-${OPENJPEG_VERSION}.tar.gz && cd openjpeg-${OPENJPEG_VERSION}/ \
+#    && mkdir build && cd build \
+#    && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$ROOTDIR \
+#    && make && make install && make clean \
+#    && cd $ROOTDIR && rm -Rf src/openjpeg*
 
 # Compile and install GDAL
-RUN cd src && tar -xvf gdal-${GDAL_VERSION}.tar.gz && cd gdal-${GDAL_VERSION} \
-    && ./configure --with-python --with-spatialite --with-pg --with-curl --with-openjpeg=$ROOTDIR
+RUN cd /tmp && tar -xvf gdal-${GDAL_VERSION}.tar.gz && cd gdal-${GDAL_VERSION} \
+    && ./configure --with-python --with-spatialite --with-pg --with-curl
+#    --with-openjpeg=$ROOTDIR
