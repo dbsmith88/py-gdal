@@ -1,26 +1,14 @@
-##
-# geographica/gdal2
-#
-# This creates an Ubuntu derived base image that installs GDAL 2.
-#
-# Ubuntu 16.04 Xenial Xerus
-FROM ubuntu:xenial
+FROM python:3
 
-ENV ROOTDIR /usr/local/
-ENV GDAL_VERSION 2.3.1
-#ENV OPENJPEG_VERSION 2.2.0
+ENV GDAL_VERSION 2.3.2
+ENV ROOT_DIR /src/
 
-# Load assets
-WORKDIR $ROOTDIR/
+WORKDIR ${ROOT_DIR}
 
-ADD http://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.gz /tmp
-#ADD https://github.com/uclou/vain/openjpeg/archive/v${OPENJPEG_VERSION}.tar.gz $/tmp/openjpeg-${OPENJPEG_VERSION}.tar.gz
+ADD http://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.gz ${ROOT_DIR}gdal-${GDAL_VERSION}.tar.gz
 
-# Install basic dependencies
 RUN apt-get update -y && apt-get install -y \
     software-properties-common \
-    python-software-properties \
-    python3-software-properties \
     build-essential \
     python-dev \
     python3-dev \
@@ -38,18 +26,10 @@ RUN apt-get update -y && apt-get install -y \
     libspatialite-dev \
     libhdf4-alt-dev \
     libhdf5-serial-dev \
-    wget \
     bash-completion \
     cmake
 
-# Compile and install OpenJPEG
-#RUN cd /tmp && tar -xvf openjpeg-${OPENJPEG_VERSION}.tar.gz && cd openjpeg-${OPENJPEG_VERSION}/ \
-#    && mkdir build && cd build \
-#    && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$ROOTDIR \
-#    && make && make install && make clean \
-#    && cd $ROOTDIR && rm -Rf src/openjpeg*
-
-# Compile and install GDAL
-RUN cd /tmp && tar -xvf gdal-${GDAL_VERSION}.tar.gz && cd gdal-${GDAL_VERSION} \
-    && ./configure --with-python --with-spatialite --with-pg --with-curl
-#    --with-openjpeg=$ROOTDIR
+RUN tar -zxvf ${ROOT_DIR}gdal-${GDAL_VERSION}.tar.gz -C ${ROOT_DIR}
+RUN cd ${ROOT_DIR}gdal-${GDAL_VERSION}/ \
+    && ./configure --with-python \
+    && make
