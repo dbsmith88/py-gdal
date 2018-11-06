@@ -14,10 +14,6 @@ RUN apt-get update -y && apt-get install -y \
     python3-dev \
     python-numpy \
     python3-numpy \
-    libspatialite-dev \
-    sqlite3 \
-    libpq-dev \
-    libcurl4-gnutls-dev \
     libproj-dev \
     libxml2-dev \
     libgeos-dev \
