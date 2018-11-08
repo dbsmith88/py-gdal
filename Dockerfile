@@ -67,5 +67,5 @@ RUN cd ${ROOT_DIR}gdal-${GDAL_VERSION}/ \
         --without-sqlite3 \
         --without-webp \
         --without-xerces \
-        --without-xml2
+        --without-xml2 \
     && make
