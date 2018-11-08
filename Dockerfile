@@ -15,5 +15,5 @@ ADD http://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.gz $
 
 RUN tar -zxvf ${ROOT_DIR}gdal-${GDAL_VERSION}.tar.gz -C ${ROOT_DIR}
 RUN cd ${ROOT_DIR}gdal-${GDAL_VERSION}/ \
-    && ./configure --with-python \
+    && ./configure \
     && make
