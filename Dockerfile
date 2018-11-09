@@ -1,7 +1,7 @@
 FROM python:3
 
 ENV GDAL_VERSION 2.3.2
-ENV ROOT_DIR /src/
+ENV ROOT_DIR /tmp/
 
 WORKDIR ${ROOT_DIR}
 
