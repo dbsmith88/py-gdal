@@ -61,7 +61,7 @@ RUN cd ${ROOT_DIR}gdal-${GDAL_VERSION}/ \
         --without-pg \
         --without-php \
         --without-png \
-        --without-python \
+        --with-python \
         --without-qhull \
         --without-sde \
         --without-sqlite3 \
